@@ -1,0 +1,12 @@
+<form hx-post="{% url 'edit_blog' blog.id %}" 
+      hx-target="#admin-blog-section" 
+      hx-swap="innerHTML">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="#" 
+       hx-get="{% url 'dashboard' %}" 
+       hx-target="#admin-blog-section" 
+       hx-swap="innerHTML" 
+       class="btn btn-secondary">Cancel</a>
+</form>

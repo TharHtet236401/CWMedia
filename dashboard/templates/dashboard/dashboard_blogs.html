@@ -9,7 +9,10 @@
                     <span class="date ms-3">{{ blog.created_at|date:"M d, Y" }}</span>
                 </div>
                 <p class="blog-content">{{ blog.content|truncatewords:30 }}</p>
-                <a href="#" class="btn btn-primary">Edit</a>
+                <a hx-get="{% url 'edit_blog' blog.id %}" 
+                   hx-target="#admin-blog-section" 
+                   hx-swap="innerHTML" 
+                   class="btn btn-primary">Edit</a>
                 <button type="button" 
                         class="btn btn-danger" 
                         data-bs-toggle="modal" 
