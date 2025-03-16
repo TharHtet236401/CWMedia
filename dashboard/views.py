@@ -70,5 +70,8 @@ def log_in(request):
             user = form.get_user()
             login(request, user)
             return redirect('dashboard')
+        else:
+            messages.error(request, 'Invalid username or password')
+            return render(request, 'dashboard/log_in.html', {'form': form})
     return render(request, 'dashboard/log_in.html')
 
