@@ -3,6 +3,9 @@ from blogs.models import Blog
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import BlogForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout
+
 # Create your views here.
 def dashboard(request):
     try:
@@ -54,3 +57,18 @@ def edit_blog(request, blog_id):
     except Exception as e:
         messages.error(request, f"Error editing blog: {str(e)}")
         return render(request, 'dashboard/dashboard_blogs.html', {'blogs': Blog.objects.all().order_by('-created_at')})
+
+
+def log_out(request):
+    logout(request)
+    return redirect('log_in')
+
+def log_in(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard')
+    return render(request, 'dashboard/log_in.html')
+
