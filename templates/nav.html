@@ -8,6 +8,9 @@
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}" href="{% url 'dashboard' %}">Admin Dashboard</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#">{{request.user.username}}</a>
                     </li>
                     <li class="nav-item">
@@ -17,9 +20,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Login</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#">Register</a>
-                    </li>
+                    </li> -->
                 {% endif %}
             </ul>
         </div>
