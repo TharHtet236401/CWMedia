@@ -3,5 +3,6 @@
     {% for blog in blogs %}
     <li>{{ blog.title }} by {{ blog.author.username }}</li>
     <p>{{ blog.content }}</p>
+    <a href="#" hx-get="{% url 'detailed_blog_view' blog.id %}" hx-target="#blog-section" hx-swap="innerHTML">Read More</a>
     {% endfor %}
 </ul>

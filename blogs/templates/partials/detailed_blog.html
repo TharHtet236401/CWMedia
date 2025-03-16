@@ -1,0 +1,15 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">{{blog.title}}</h1>
+            <h6 class="card-subtitle mb-2 text-muted">By {{blog.author.username}}</h6>
+            <p class="card-text">{{blog.content}}</p>
+            <div class="text-muted">
+                <small>Created: {{blog.created_at|date:"F d, Y"}}</small><br>
+                <small>Last updated: {{blog.updated_at|date:"F d, Y"}}</small>
+            </div>
+        </div>
+    </div>
+    <a href="#" hx-get="{% url 'home' %}" hx-target="#blog-section" hx-swap="innerHTML" class="btn btn-primary mt-3">Back to Blogs</a>
+</div>
+
