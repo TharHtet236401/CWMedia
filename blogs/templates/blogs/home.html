@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{request.user}}
-<h1>Home and Blogs</h1>
-<ul>
-    {% for blog in blogs %}
-    <li>{{ blog.title }} by {{ blog.author.username }}</li>
-    <p>{{ blog.content }}</p>
-    {% endfor %}
-</ul>
+
+<div id="blog-section">
+    {% include 'partials/blogs.html' %}
+</div>
+
 {% endblock content %}
 

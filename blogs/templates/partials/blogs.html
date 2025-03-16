@@ -1,0 +1,7 @@
+<h1>Home and Blogs</h1>
+<ul>
+    {% for blog in blogs %}
+    <li>{{ blog.title }} by {{ blog.author.username }}</li>
+    <p>{{ blog.content }}</p>
+    {% endfor %}
+</ul>
