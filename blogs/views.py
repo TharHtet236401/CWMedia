@@ -7,5 +7,8 @@ from .models import Blog
 def home(request):
     # Debug prints
     blogs = Blog.objects.all()
-    return render(request, 'blogs/home.html', {'blogs': blogs})
+    context = {
+        'blogs': blogs
+    }
+    return render(request, 'blogs/home.html', context)
 
