@@ -15,15 +15,22 @@ def dashboard(request):
         return render(request, 'dashboard/dashboard.html', {'blogs': []})
 
 def add_blog(request):
-    if request.method == 'POST':
-        form = BlogForm(request.POST)
-        form.instance.author = request.user
-        if form.is_valid():
-            form.save()
-            return redirect('dashboard')
-    else:
-        form = BlogForm()
-    return render(request, 'dashboard/add_blog.html', {'form': form})
+    try:
+        if request.method == 'POST':
+            form = BlogForm(request.POST)
+            form.instance.author = request.user
+            if form.is_valid():
+                form.save()
+                return redirect('dashboard')
+            else:
+                messages.error(request, 'Invalid form submission')
+                return render(request, 'dashboard/add_blog.html', {'form': form})
+        else:
+            form = BlogForm()
+        return render(request, 'dashboard/add_blog.html', {'form': form})
+    except Exception as e:
+        messages.error(request, f"Error adding blog: {str(e)}")
+        return render(request, 'dashboard/dashboard_blogs.html', {'blogs': Blog.objects.all().order_by('-created_at')})
 
 def delete_blog(request, blog_id):
     try:    
