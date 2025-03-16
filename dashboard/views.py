@@ -16,7 +16,6 @@ def delete_blog(request, blog_id):
     try:    
         blog = Blog.objects.get(id=blog_id)
         blog.delete()
-        messages.success(request, 'Blog deleted successfully')
         return redirect('dashboard')
     except Exception as e:
         messages.error(request, 'Error deleting blog')
