@@ -1,0 +1,8 @@
+<h1>Add Blog</h1>
+<form hx-post="{% url 'add_blog' %}" hx-target="#admin-blog-section" hx-swap="innerHTML">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Blog</button>
+</form>
+
+<button hx-get="{% url 'dashboard' %}" hx-target="#admin-blog-section" hx-swap="innerHTML" class="btn btn-secondary">Cancel</button>

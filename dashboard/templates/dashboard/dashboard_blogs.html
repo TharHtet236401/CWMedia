@@ -1,4 +1,7 @@
+<button class="btn btn-primary" hx-get="{% url 'add_blog' %}" hx-target="#admin-blog-section" hx-swap="innerHTML">Add Blog</button>
 <div class="row">
+
+
     {% for blog in blogs %}
     <div class="col-md-6 col-lg-4 mb-4">
         <article class="blog-card card h-100">

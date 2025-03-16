@@ -14,6 +14,17 @@ def dashboard(request):
         messages.error(request, 'Error fetching blogs')
         return render(request, 'dashboard/dashboard.html', {'blogs': []})
 
+def add_blog(request):
+    if request.method == 'POST':
+        form = BlogForm(request.POST)
+        form.instance.author = request.user
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = BlogForm()
+    return render(request, 'dashboard/add_blog.html', {'form': form})
+
 def delete_blog(request, blog_id):
     try:    
         blog = Blog.objects.get(id=blog_id)
