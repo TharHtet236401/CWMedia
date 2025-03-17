@@ -93,12 +93,12 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data.get('name')
+            username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            user = User.objects.create_user(name, email, password)
+            user = User.objects.create_user(username, email, password)
             user.save()
-            print("form saved ahd user created")
+            messages.success(request, 'User created successfully. Please login to continue.')
             return redirect('log_in')
         else:
             messages.error(request, 'Invalid form submission')
