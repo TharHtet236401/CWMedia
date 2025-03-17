@@ -65,16 +65,23 @@ def log_out(request):
     return redirect('log_in')
 
 def log_in(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('dashboard')
-        else:
-            messages.error(request, 'Invalid username or password')
-            return render(request, 'dashboard/log_in.html', {'form': form})
-    return render(request, 'dashboard/log_in.html')
+    try:
+        if request.method == 'POST':
+            form = AuthenticationForm(request, data=request.POST)
+            if form.is_valid():
+                user = form.get_user()
+                login(request, user)
+                messages.success(request, 'Logged in successfully')
+                return redirect('dashboard')
+            else:
+                messages.error(request, 'Invalid username or password')
+                return render(request, 'dashboard/log_in.html', {'form': form})
+        
+        form = AuthenticationForm()
+        return render(request, 'dashboard/log_in.html', {'form': form})
+    except Exception as e:
+        messages.error(request, f'Login error: {str(e)}')
+        return render(request, 'dashboard/log_in.html', {'form': AuthenticationForm()})
 
 def register(request):
     print("it reached here")

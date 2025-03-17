@@ -1,5 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <form hx-post="{% url 'register' %}" hx-target="#admin-blog-section" hx-swap="innerHTML">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Register</button>
 </form>
+{% endblock %}
