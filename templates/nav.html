@@ -17,12 +17,14 @@
                         <a class="nav-link" href="{% url 'log_out' %}">Logout</a>
                     </li>
                 {% else %}
+                    {% if request.path == '/dashboard/' %}
+                        <li class="nav-item">
+                            <a class="nav-link" hx-get="{% url 'log_in' %}" hx-target="#admin-blog-section" hx-swap="innerHTML">Login</a>
+                        </li>
                     <li class="nav-item">
-                        <a class="nav-link" hx-get="{% url 'log_in' %}" hx-target="#admin-blog-section" hx-swap="innerHTML">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" hx-get="{% url 'register' %}" hx-target="#admin-blog-section" hx-swap="innerHTML">Register</a>
-                    </li>
+                            <a class="nav-link" hx-get="{% url 'register' %}" hx-target="#admin-blog-section" hx-swap="innerHTML">Register</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
             </ul>
         </div>
