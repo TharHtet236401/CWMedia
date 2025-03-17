@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import BlogForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
+from .forms import UserRegistrationForm
 
 # Create your views here.
 def dashboard(request):
@@ -75,3 +76,17 @@ def log_in(request):
             return render(request, 'dashboard/log_in.html', {'form': form})
     return render(request, 'dashboard/log_in.html')
 
+def register(request):
+    print("it reached here")
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("form saved ahd user created")
+            return redirect('log_in')
+        else:
+            messages.error(request, 'Invalid form submission')
+            return render(request, 'dashboard/register.html', {'form': form})
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'dashboard/register.html', {'form': form})

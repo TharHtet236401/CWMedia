@@ -1,5 +1,7 @@
 from django import forms    
 from blogs.models import Blog
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 class BlogForm(forms.ModelForm):
     class Meta:
@@ -10,3 +12,8 @@ class BlogForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
 
+
+class UserRegistrationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2']

@@ -18,10 +18,10 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'log_in' %}">Login</a>
+                        <a class="nav-link" hx-get="{% url 'log_in' %}" hx-target="#admin-blog-section" hx-swap="innerHTML">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
+                        <a class="nav-link" hx-get="{% url 'register' %}" hx-target="#admin-blog-section" hx-swap="innerHTML">Register</a>
                     </li>
                 {% endif %}
             </ul>

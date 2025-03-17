@@ -8,5 +8,6 @@ urlpatterns = [
     path('edit_blog/<int:blog_id>/', views.edit_blog, name='edit_blog'),
     path('log_in/', views.log_in, name='log_in'),
     path('log_out/', views.log_out, name='log_out'),
+    path('register/', views.register, name='register'),
 ]
 
