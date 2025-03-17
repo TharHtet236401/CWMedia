@@ -147,3 +147,9 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'log_in'
+
+# Login URL configuration
+LOGIN_URL = 'log_in'

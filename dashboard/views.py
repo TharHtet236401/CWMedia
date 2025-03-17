@@ -6,8 +6,10 @@ from .forms import BlogForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from .forms import UserRegistrationForm
+from django.contrib.auth.models import User
 
 # Create your views here.
+@login_required
 def dashboard(request):
     try:
         blogs = Blog.objects.all().order_by('-created_at')
@@ -18,6 +20,7 @@ def dashboard(request):
         messages.error(request, 'Error fetching blogs')
         return render(request, 'dashboard/dashboard.html', {'blogs': []})
 
+@login_required
 def add_blog(request):
     try:
         if request.method == 'POST':
@@ -36,6 +39,7 @@ def add_blog(request):
         messages.error(request, f"Error adding blog: {str(e)}")
         return render(request, 'dashboard/dashboard_blogs.html', {'blogs': Blog.objects.all().order_by('-created_at')})
 
+@login_required
 def delete_blog(request, blog_id):
     try:    
         blog = Blog.objects.get(id=blog_id)
@@ -45,6 +49,7 @@ def delete_blog(request, blog_id):
         messages.error(request, 'Error deleting blog')
         return redirect('dashboard')
 
+@login_required
 def edit_blog(request, blog_id):
     try:
         blog = get_object_or_404(Blog, pk=blog_id)
@@ -59,10 +64,10 @@ def edit_blog(request, blog_id):
         messages.error(request, f"Error editing blog: {str(e)}")
         return render(request, 'dashboard/dashboard_blogs.html', {'blogs': Blog.objects.all().order_by('-created_at')})
 
-
 def log_out(request):
     logout(request)
     return redirect('log_in')
+
 
 def log_in(request):
     try:
@@ -88,7 +93,11 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            name = form.cleaned_data.get('name')
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            user = User.objects.create_user(name, email, password)
+            user.save()
             print("form saved ahd user created")
             return redirect('log_in')
         else:
