@@ -1,37 +1,203 @@
-<div class="row">
-    <div class="col-12">
-        <h1 class="display-4 mb-4">Latest Stories</h1>
+{% load static %}
+
+<style>
+    .blog-header {
+        position: relative;
+        padding: 0rem 0;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .blog-header h1 {
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: #2c3e50;
+    }
+
+    .blog-header p {
+        color: #6c757d;
+    }
+
+    .blog-card {
+        border: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .blog-thumbnail {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .blog-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #2c3e50;
+        line-height: 1.3;
+    }
+
+    .blog-meta {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .blog-meta span {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .blog-meta .author {
+        font-weight: 600;
+        color: #3498db;
+    }
+
+    .blog-meta .category {
+        background-color: #f8f9fa;
+        padding: 0.25rem 0;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+
+    .blog-content {
+        color: #495057;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .read-more-btn {
+        display: inline-block;
+        padding: 0.5rem 1.25rem;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    .read-more-btn:hover {
+        background-color: #2980b9;
+        color: white;
+        text-decoration: none;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin: 2rem 0;
+    }
+
+    .empty-state p {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state .btn {
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+    }
+
+    .card-body {
+        position: relative;
+        padding-bottom: 3rem;
+    }
+
+    .blog-time {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        font-size: 0.85rem;
+        color: #95a5a6;
+        font-style: italic;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+</style>
+
+<div class="blog-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="display-4">Latest Stories</h1>
+                <p class="lead">Discover the most engaging articles and insights</p>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="row">
-    {% for blog in blogs %}
-    <div class="col-md-6 col-lg-4 mb-4">
-        <article class="blog-card card h-100">
-            <div class="card-body">
-                <h2 class="blog-title">{{ blog.title }}</h2>
-                <div class="blog-meta">
-                    <span class="author">By {{ blog.author.username }}</span>
-                    <span class="date ms-3">{{ blog.created_at|date:"M d, Y" }}</span>
-                    <span class="category">Category: {{ blog.category }}</span>
+<div class="container">
+    <div class="row g-4">
+        {% for blog in blogs %}
+        <div class="col-md-6 col-lg-4">
+            <article class="blog-card card h-100">
+                {% if blog.image %}
+                <img src="{{ blog.image.url }}" class="blog-thumbnail" alt="{{ blog.title }}">
+                {% else %}
+                <img src="{% static 'images/default-blog.jpg' %}" class="blog-thumbnail" alt="Default blog image">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="blog-title">{{ blog.title }}</h2>
+                    <div class="blog-meta">
+                        <span class="category">
+                            <i class="fas fa-tag me-1"></i>
+                            {{ blog.category }}
+                        </span>
+                        <span class="author">
+                            <i class="fas fa-user-circle me-1"></i>
+                            {{ blog.author.username }}
+                        </span>
+                        
+                    </div>
+                    <p class="blog-content">{{ blog.content|truncatewords:30 }}</p>
+                    <a href="#" 
+                       class="read-more-btn"
+                       hx-get="{% url 'detailed_blog_view' blog.id %}" 
+                       hx-target="#blog-section" 
+                       hx-swap="innerHTML" 
+                       hx-push-url="true">
+                        Read More
+                        <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                    <span class="blog-time">
+                        <span>
+                            <i class="far fa-calendar-alt me-1"></i>
+                            {{ blog.created_at|date:"M d, Y" }}
+                        </span>
+                        <span>
+                            <i class="far fa-clock me-1"></i>
+                            {{ blog.created_at|time:"g:i A" }}
+                        </span>
+                    </span>
                 </div>
-                <p class="blog-content">{{ blog.content|truncatewords:30 }}</p>
-                <a href="#" 
-                   class="read-more-btn"
-                   hx-get="{% url 'detailed_blog_view' blog.id %}" 
-                   hx-target="#blog-section" 
-                   hx-swap="innerHTML" 
-                   hx-push-url="true">
-                    Read More
-                </a>
-            </div>
-        </article>
-    </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-info">
-            No blogs found. Be the first to write one!
+            </article>
         </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state">
+                <i class="fas fa-newspaper fa-3x mb-3 text-muted"></i>
+                <p>No stories have been published yet.</p>
+                <a href="#" class="btn btn-primary">Start Writing</a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>

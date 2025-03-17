@@ -22,6 +22,7 @@ def home(request):
 
 def detailed_blog_view(request, pk):
     try:
+        
         blog = get_object_or_404(Blog, pk=pk)
         context = {
             'blog': blog
