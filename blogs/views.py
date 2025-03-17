@@ -7,8 +7,10 @@ from django.contrib import messages
 def home(request):
     try:
         blogs = Blog.objects.all().order_by('-created_at')
+        categories = Blog.CATEGORY_CHOICES
         context = {
-            'blogs': blogs
+            'blogs': blogs,
+            'categories': categories
         }
         if request.headers.get('HX-Request'):
             return render(request, 'partials/blogs.html', context)

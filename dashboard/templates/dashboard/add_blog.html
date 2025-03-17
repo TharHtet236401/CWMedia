@@ -16,6 +16,14 @@
                     <label for="id_content" class="form-label">Content</label>
                     <textarea name="content" class="form-control" id="id_content" rows="6" required></textarea>
                 </div>
+                <div class="mb-3">
+                    <label for="id_category" class="form-label">Category</label>
+                    <select name="category" class="form-control" id="id_category">
+                        {% for value, label in categories %}
+                            <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">Add Blog</button>
                     <a href="#" 

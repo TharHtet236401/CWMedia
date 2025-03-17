@@ -6,14 +6,10 @@ from django.contrib.auth.forms import UserCreationForm
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ['title', 'content']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
+        fields = ['title', 'content', 'category']
 
 class UserRegistrationForm(UserCreationForm):
     class Meta:
-        model = User
+        model = User;
         fields = ['username', 'password1', 'password2']
+        

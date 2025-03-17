@@ -13,6 +13,7 @@
                 <div class="blog-meta">
                     <span class="author">By {{ blog.author.username }}</span>
                     <span class="date ms-3">{{ blog.created_at|date:"M d, Y" }}</span>
+                    <span class="category">Category: {{ blog.category }}</span>
                 </div>
                 <p class="blog-content">{{ blog.content|truncatewords:30 }}</p>
                 <a href="#" 

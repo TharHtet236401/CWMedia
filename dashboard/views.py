@@ -34,7 +34,8 @@ def add_blog(request):
                 return render(request, 'dashboard/add_blog.html', {'form': form})
         else:
             form = BlogForm()
-        return render(request, 'dashboard/add_blog.html', {'form': form})
+            categories = Blog.CATEGORY_CHOICES
+        return render(request, 'dashboard/add_blog.html', {'form': form, 'categories': categories})
     except Exception as e:
         messages.error(request, f"Error adding blog: {str(e)}")
         return render(request, 'dashboard/dashboard_blogs.html', {'blogs': Blog.objects.all().order_by('-created_at')})
