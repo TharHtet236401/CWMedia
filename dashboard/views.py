@@ -90,20 +90,18 @@ def log_in(request):
         return render(request, 'dashboard/log_in.html', {'form': AuthenticationForm()})
 
 def register(request):
-    print("it reached here")
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            user = User.objects.create_user(username, email, password)
-            user.save()
-            messages.success(request, 'User created successfully. Please login to continue.')
-            return redirect('log_in')
+    try:
+        if request.method == 'POST':
+            form = UserRegistrationForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                messages.success(request, 'Account created successfully. Please log in.')
+                return redirect('log_in')
+            else:
+                messages.error(request, 'Please correct the errors below.')
         else:
-            messages.error(request, 'Invalid form submission')
-            return render(request, 'dashboard/register.html', {'form': form})
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'dashboard/register.html', {'form': form})
+            form = UserRegistrationForm()
+        return render(request, 'dashboard/register.html', {'form': form})
+    except Exception as e:
+        messages.error(request, f'Registration error: {str(e)}')
+        return render(request, 'dashboard/register.html', {'form': UserRegistrationForm()})
